@@ -1,0 +1,46 @@
+{
+  "name": "with-firebase-hosting",
+  "version": "4.0.1",
+  "description": "Host Next.js SSR app on Firebase Cloud Functions with Firebase Hosting redirects.",
+  "engines": {
+    "node": "8"
+  },
+  "scripts": {
+    "dev": "next \"src/app/\"",
+    "preserve": "npm run build-public && npm run build-funcs && npm run build-app && npm run copy-deps && npm run install-deps",
+    "serve": "cross-env NODE_ENV=production firebase serve",
+    "predeploy": "npm run build-public && npm run build-funcs && npm run build-app && npm run copy-deps",
+    "deploy": "firebase deploy",
+    "clean": "rimraf \"dist/functions/**\" && rimraf \"dist/public\"",
+    "build-public": "cpx \"src/public/**/*.*\" \"dist/public\" -C",
+    "build-funcs": "babel \"src/functions\" --out-dir \"dist/functions\"",
+    "build-app": "next build \"src/app/\"",
+    "copy-deps": "cpx \"*{package.json,package-lock.json,yarn.lock}\" \"dist/functions\" -C",
+    "install-deps": "cd \"dist/functions\" && npm i"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "firebase-admin": "^8.9.0",
+    "firebase-functions": "^2.1.0",
+    "grpc": "^1.22.2",
+    "helmet": "^3.21.2",
+    "hpp": "^0.2.3",
+    "morgan": "^1.9.1",
+    "next": "latest",
+    "nocache": "^2.1.0",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.0",
+    "cpx": "^1.5.0",
+    "cross-env": "^5.2.0",
+    "firebase-functions-test": "^0.1.6",
+    "firebase-tools": "^6.1.0",
+    "rimraf": "^2.6.0"
+  }
+}
